@@ -2,3 +2,7 @@
 *.env
 !wakusim.env
 book
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
