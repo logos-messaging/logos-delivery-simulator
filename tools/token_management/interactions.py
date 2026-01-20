@@ -5,12 +5,12 @@ from dotenv import load_dotenv
 # Load environment variables from .env if present
 load_dotenv()
 
-TOKEN_CONTRACT_PROXY_ADDRESS = os.getenv("TOKEN_CONTRACT_ADDRESS", "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512")
-TOKEN_CONTRACT_OWNER_ADDRESS = os.getenv("ETH_FROM", "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266")  # Replace with actual owner address
-RLN_CONTRACT_PROXY_ADDRESS = os.getenv("RLN_CONTRACT_ADDRESS", "0x0165878A594ca255338adfa4d48449f69242Eb8F")  # Replace with actual RLN contract address
-RPC_URL = os.getenv("RLN_RELAY_ETH_CLIENT_ADDRESS", "http://foundry:8545") #Replace 'foundry' with the containers actual IP or replace entirely with your own RPC URL
-USER_ACCOUNT_ADDRESS = os.getenv("ETH_FROM", "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266")  # Replace with actual user address
-CONTRACT_OWNER_PRIVATE_KEY = os.getenv("PRIVATE_KEY", "PK")  # Replace 'PK' with your private key or set in .env
+TOKEN_CONTRACT_PROXY_ADDRESS = "0xd28d1a688b1cBf5126fB8B034d0150C81ec0024c"
+TOKEN_CONTRACT_OWNER_ADDRESS = "0xad1279946aAc40923fAbFe170C4A8e87Fe7595De"
+RLN_CONTRACT_PROXY_ADDRESS = "0xB9cd878C90E49F797B4431fBF4fb333108CB90e6"
+RPC_URL = "https://linea-sepolia.infura.io/v3/2f563df6864246cdbfc16e4542978bac"
+USER_ACCOUNT_ADDRESS = "0x0BFb9Db85a8b6eF81490B3Ad8f6f914570141a49"
+CONTRACT_OWNER_PRIVATE_KEY = "0xad1279946aAc40923fAbFe170C4A8e87Fe7595De"
 
 
 # Standard ERC20 ABI (truncated to main functions)
@@ -25,9 +25,12 @@ ERC20_ABI = [
     {"constant":True,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"type":"function"},
     {"constant":False,"inputs":[{"name":"to","type":"address"},{"name":"amount","type":"uint256"}],"name":"mint","outputs":[],"type":"function"},
     {"constant":True,"inputs":[{"name":"account","type":"address"}],"name":"isMinter","outputs":[{"name":"","type":"bool"}],"type":"function"},
+    {"constant":False,"inputs":[{"name":"account","type":"address"}],"name":"addMinter","outputs":[],"type":"function"},
+    {"constant":False,"inputs":[{"name":"account","type":"address"}],"name":"removeMinter","outputs":[],"type":"function"},
     {"constant":True,"inputs":[],"name":"maxSupply","outputs":[{"name":"","type":"uint256"}],"type":"function"},
     {"constant":True,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"type":"function"},
-    {"constant":True,"inputs":[],"name":"implementation","outputs":[{"name":"","type":"address"}],"type":"function"}
+    {"constant":True,"inputs":[],"name":"implementation","outputs":[{"name":"","type":"address"}],"type":"function"},
+    {"constant":False,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"type":"function"}
 ]
 
 w3 = Web3(Web3.HTTPProvider(RPC_URL))
@@ -63,6 +66,14 @@ def approve(spender_address, amount, private_key=None):
 def is_minter(address):
     return contract.functions.isMinter(Web3.to_checksum_address(address)).call()
 
+def add_minter(account_address, private_key=None):
+    tx = contract.functions.addMinter(Web3.to_checksum_address(account_address))
+    return send_tx(tx, private_key)
+
+def remove_minter(account_address, private_key=None):
+    tx = contract.functions.removeMinter(Web3.to_checksum_address(account_address))
+    return send_tx(tx, private_key)
+
 def get_total_supply():
     return contract.functions.totalSupply().call()
 
@@ -71,6 +82,10 @@ def get_max_supply():
 
 def get_owner():
     return contract.functions.owner().call()
+
+def transfer_ownership(new_owner_address, private_key=None):
+    tx = contract.functions.transferOwnership(Web3.to_checksum_address(new_owner_address))
+    return send_tx(tx, private_key)
 
 # Read: get implementation contract address (proxy, EIP-1967)
 def get_implementation():
@@ -138,6 +153,18 @@ if __name__ == "__main__":
     approve_parser.add_argument('amount', type=float, help='Amount to approve')
     approve_parser.add_argument('--private-key', help='Private key (default: PRIVATE_KEY from env)')
 
+    transfer_ownership_parser = subparsers.add_parser('transfer-ownership', help='Transfer contract ownership (requires PRIVATE_KEY)')
+    transfer_ownership_parser.add_argument('new_owner', help='New owner address')
+    transfer_ownership_parser.add_argument('--private-key', help='Private key (default: PRIVATE_KEY from env)')
+
+    add_minter_parser = subparsers.add_parser('add-minter', help='Add minter role to account (requires PRIVATE_KEY)')
+    add_minter_parser.add_argument('account', help='Account address to grant minter role to')
+    add_minter_parser.add_argument('--private-key', help='Private key (default: PRIVATE_KEY from env)')
+
+    remove_minter_parser = subparsers.add_parser('remove-minter', help='Remove minter role from account (requires PRIVATE_KEY)')
+    remove_minter_parser.add_argument('account', help='Account address to remove minter role from')
+    remove_minter_parser.add_argument('--private-key', help='Private key (default: PRIVATE_KEY from env)')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -173,3 +200,12 @@ if __name__ == "__main__":
     elif args.command == 'approve':
         tx_hash = approve(args.spender, args.amount, getattr(args, 'private_key', None))
         print(f"Approve complete: {tx_hash.hex()}")
+    elif args.command == 'transfer-ownership':
+        tx_hash = transfer_ownership(args.new_owner, getattr(args, 'private_key', None))
+        print(f"Transfer ownership complete: {tx_hash.hex()}")
+    elif args.command == 'add-minter':
+        tx_hash = add_minter(args.account, getattr(args, 'private_key', None))
+        print(f"Add minter complete: {tx_hash.hex()}")
+    elif args.command == 'remove-minter':
+        tx_hash = remove_minter(args.account, getattr(args, 'private_key', None))
+        print(f"Remove minter complete: {tx_hash.hex()}")

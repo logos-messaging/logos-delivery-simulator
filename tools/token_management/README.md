@@ -83,6 +83,24 @@ python3 tools/token_management/interactions.py approve 0xSpender 500
 python3 tools/token_management/interactions.py approve 0xSpender 500 --private-key 0xYourPrivateKey
 ```
 
+Transfer contract ownership:
+```bash
+python3 tools/token_management/interactions.py transfer-ownership 0xNewOwner
+python3 tools/token_management/interactions.py transfer-ownership 0xNewOwner --private-key 0xYourPrivateKey
+```
+
+Add minter role to an account:
+```bash
+python3 tools/token_management/interactions.py add-minter 0xAccount
+python3 tools/token_management/interactions.py add-minter 0xAccount --private-key 0xYourPrivateKey
+```
+
+Remove minter role from an account:
+```bash
+python3 tools/token_management/interactions.py remove-minter 0xAccount
+python3 tools/token_management/interactions.py remove-minter 0xAccount --private-key 0xYourPrivateKey
+```
+
 ### Help
 
 View all available commands:
