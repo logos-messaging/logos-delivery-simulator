@@ -22,6 +22,10 @@ w3 = Web3(Web3.HTTPProvider(RPC_URL))
 contract = w3.eth.contract(address=Web3.to_checksum_address(TOKEN_CONTRACT_PROXY_ADDRESS), abi=TOKEN_ABI)
 
 
+# Contract interaction helpers.
+# For usage/examples and descriptions, see the argparse CLI section under the
+# "main guard" at the bottom of this file: `if __name__ == "__main__":`.
+
 def get_balance(address):
     balance = contract.functions.balanceOf(Web3.to_checksum_address(address)).call()
     decimals = contract.functions.decimals().call()
