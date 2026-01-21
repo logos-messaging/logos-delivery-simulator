@@ -1,11 +1,12 @@
 # token-management
 
-Test utility for [TestStableToken](https://github.com/logos-messaging/logos-messaging-rlnv2-contract/blob/main/test/TestStableToken.sol) used in the Logos Messaging RLN v2 contract tests.
+CLI utility for interacting with the [TestStableToken](https://github.com/logos-messaging/logos-messaging-rlnv2-contract/blob/main/test/TestStableToken.sol) ERC-20 used by the Logos Messaging RLN v2 contract tests.
 
-Given the token contract address and an Ethereum JSON-RPC endpoint, it allows minting and transferring TestStableToken tokens.
-Given the contract address, it can also query allowances.
+Point it at a deployed token contract (proxy) and an Ethereum JSON-RPC endpoint to:
+- Read token state (e.g. balance, allowance, total/max supply, owner, proxy implementation).
+- Perform write operations like mint/transfer/approve and minter/ownership management (requires `PRIVATE_KEY`).
 
-Details about the use of TestStableToken can be found in the [TST README](https://github.com/logos-messaging/logos-messaging-rlnv2-contract/blob/main/test/README.md)
+For the semantics and intended use of `TestStableToken` itself, see the [TST README](https://github.com/logos-messaging/logos-messaging-rlnv2-contract/blob/main/test/README.md).
 
 ## Configuration
 
@@ -14,8 +15,8 @@ Set the following environment variables (or use a `.env` file):
 - `TOKEN_CONTRACT_ADDRESS`: The token contract proxy address
 - `RLN_CONTRACT_ADDRESS`: The RLN contract proxy address
 - `RLN_RELAY_ETH_CLIENT_ADDRESS`: The Ethereum JSON-RPC endpoint
-- `ETH_FROM`: The default user account address
-- `PRIVATE_KEY`: Private key for write operations (transfer, mint)
+- `ETH_FROM`: The default user account address of the deployer/owner of the TestStableToken contract
+- `PRIVATE_KEY`: Private key for the ETH_FROM account, it will lbe used for write operations (transfer, mint)
 
 ## Usage
 
@@ -33,12 +34,12 @@ Get max supply:
 python3 tools/token_management/interactions.py max-supply
 ```
 
-Get contract owner:
+Get token contract owner:
 ```bash
 python3 tools/token_management/interactions.py owner
 ```
 
-Get implementation address:
+Get token implementation address:
 ```bash
 python3 tools/token_management/interactions.py implementation
 ```
