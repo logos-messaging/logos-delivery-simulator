@@ -1,4 +1,6 @@
 import os
+import json
+from pathlib import Path
 from web3 import Web3
 from dotenv import load_dotenv
 
@@ -6,36 +8,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 TOKEN_CONTRACT_PROXY_ADDRESS = "0xd28d1a688b1cBf5126fB8B034d0150C81ec0024c"
-TOKEN_CONTRACT_OWNER_ADDRESS = "0xad1279946aAc40923fAbFe170C4A8e87Fe7595De"
 RLN_CONTRACT_PROXY_ADDRESS = "0xB9cd878C90E49F797B4431fBF4fb333108CB90e6"
-RPC_URL = "https://linea-sepolia.infura.io/v3/2f563df6864246cdbfc16e4542978bac"
+RPC_URL = "https://linea-sepolia.infura.io/v3/<YOUR_INFURA_PROJECT_ID>"  # Replace with your Infura project ID or load from env
 USER_ACCOUNT_ADDRESS = "0xYourUserAccountAddressHere"  # Replace with user account address or load from env
 CONTRACT_OWNER_PRIVATE_KEY = "PK" # Replace with actual private key or load from env
 
-
-# Standard ERC20 ABI (truncated to main functions)
-ERC20_ABI = [
-    {"constant":True,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"type":"function"},
-    {"constant":True,"inputs":[{"name":"_owner","type":"address"}, {"name":"_spender", "type":"address"}],"name":"allowance","outputs":[{"name":"allowance","type":"uint256"}],"type":"function"},
-    {"constant":False,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"type":"function"},
-    {"constant":False,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"type":"function"},
-    {"constant":True,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"type":"function"},
-    {"constant":True,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"type":"function"},
-    {"constant":True,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"type":"function"},
-    {"constant":True,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"type":"function"},
-    {"constant":False,"inputs":[{"name":"to","type":"address"},{"name":"amount","type":"uint256"}],"name":"mint","outputs":[],"type":"function"},
-    {"constant":True,"inputs":[{"name":"account","type":"address"}],"name":"isMinter","outputs":[{"name":"","type":"bool"}],"type":"function"},
-    {"constant":False,"inputs":[{"name":"account","type":"address"}],"name":"addMinter","outputs":[],"type":"function"},
-    {"constant":False,"inputs":[{"name":"account","type":"address"}],"name":"removeMinter","outputs":[],"type":"function"},
-    {"constant":True,"inputs":[],"name":"maxSupply","outputs":[{"name":"","type":"uint256"}],"type":"function"},
-    {"constant":True,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"type":"function"},
-    {"constant":True,"inputs":[],"name":"implementation","outputs":[{"name":"","type":"address"}],"type":"function"},
-    {"constant":False,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"type":"function"}
-]
+# Load the Token Stable Token Contract ABI
+# TODO load the ABI from contract build artifacts
+ABI_PATH = Path(__file__).with_name("token_abi.json")
+TOKEN_ABI = json.loads(ABI_PATH.read_text(encoding="utf-8"))
 
 w3 = Web3(Web3.HTTPProvider(RPC_URL))
-contract = w3.eth.contract(address=Web3.to_checksum_address(TOKEN_CONTRACT_PROXY_ADDRESS), abi=ERC20_ABI)
-
+contract = w3.eth.contract(address=Web3.to_checksum_address(TOKEN_CONTRACT_PROXY_ADDRESS), abi=TOKEN_ABI)
 
 
 def get_balance(address):
