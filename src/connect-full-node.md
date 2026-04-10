@@ -1,12 +1,12 @@
 # Connect external full node
 
 
-If you want to connect to the existing waku network a node with some custom configuration. Perhaps a different image or some other configuration, you can do it as follows. Bear in mind that if this node has other configuration (eg `rln-relay-epoch-sec` or `rln-relay-user-message-limit`) then it won’t behave properly.
+If you want to connect a node with some custom configuration to the existing Logos delivery network. Perhaps a different image or some other configuration, you can do it as follows. Bear in mind that if this node has other configuration (eg `rln-relay-epoch-sec` or `rln-relay-user-message-limit`) then it won’t behave properly.
 
 - ⚠️set your own `staticnode`
 
 ```bash
-docker run -it --network waku-simulator_simulation quay.io/wakuorg/nwaku-pr:2759-rln-v2 \
+docker run -it --network logos-delivery-simulator_simulation quay.io/wakuorg/nwaku-pr:2759-rln-v2 \
       --relay=true \
       --rln-relay=true \
       --rln-relay-dynamic=true \
@@ -26,7 +26,7 @@ You can also try to connect multiple nodes with a loop. Note the `&`. Remember t
 
 ```bash
 for i in {1..5}; do
-    docker run -it --network waku-simulator_simulation quay.io/wakuorg/nwaku-pr:2759-rln-v2 \
+    docker run -it --network logos-delivery-simulator_simulation quay.io/wakuorg/nwaku-pr:2759-rln-v2 \
       --relay=true \
       --rln-relay=true \
       --rln-relay-dynamic=true \

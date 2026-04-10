@@ -1,6 +1,6 @@
-# Deploy a waku network
+# Deploy a delivery network
 
-The network can be deployed in a few commands, and requires `docker` and `docker-compose`. Some of the configuration is exposed via env flags, but if you are missing some, PRs are accepted.
+The network can be deployed in a few commands, and requires `docker` and `docker compose`. Some of the configuration is exposed via env flags, but if you are missing some, PRs are accepted.
 
 Some of the most important parameters are:
 
@@ -36,20 +36,20 @@ After a couple of minutes, everything should be running at:
 For greater observability, one can access each node logs as follows:
 
 ```bash
-docker logs waku-simulator-nwaku-1
-docker logs waku-simulator-nwaku-2
+docker logs logos-delivery-simulator_nwaku_1
+docker logs logos-delivery-simulator_nwaku_2
 ```
 
 Or if you want to follow the logs
 
 ```bash
-docker logs waku-simulator-nwaku-1 --follow
+docker logs logos-delivery-simulator_nwaku_1 --follow
 ```
 
 Once the network of nwaku nodes is up and running we can use it to perform different tests, connecting other nodes that we fully control with some specific characteristics. This ranges from connecting spammer nodes, light clients, and in the future unsynced nodes, etc.
 
 
-Now that we have the network deployed we can use it. Hereunder we describe how to use the network deployed by `waku-simulator` to perform end-to-end tests of any desired feature. We focus on the following ones:
+Now that we have the network deployed we can use it. Hereunder we describe how to use the network deployed by `logos-delivery-simulator` to perform end-to-end tests of any desired feature. We focus on the following ones:
 
 - Inject traffic:
 - Connect external full node:

@@ -1,14 +1,14 @@
 # Inject traffic
 
 
-In order to inject traffic into the network, we can use the REST API of each nwaku node. We have a simple dockerized script in [rest-traffic](https://github.com/alrevuelta/rest-traffic), that can perform this task. In the following command we run a docker container, connected to the waku-simulator network. This script will inject a message every `delay-seconds` with a size of `msg-size-kbytes` into a given `pubsub-topic`. Note that in `multiple-nodes` you can configure the nodes that will publish messages, where `[1..5]` will publish to node 1, 2, 3, 4, 5. You can publish to a single node (e.g. node 1) by using `[1..1]`.
+In order to inject traffic into the network, we can use the REST API of each nwaku node. We have a simple dockerized script in [rest-traffic](https://github.com/alrevuelta/rest-traffic), that can perform this task. In the following command we run a docker container, connected to the logos-delivery-simulator network. This script will inject a message every `delay-seconds` with a size of `msg-size-kbytes` into a given `pubsub-topic`. Note that in `multiple-nodes` you can configure the nodes that will publish messages, where `[1..5]` will publish to node 1, 2, 3, 4, 5. You can publish to a single node (e.g. node 1) by using `[1..1]`.
 
 ```jsx
-docker run -it --network waku-simulator_simulation alrevuelta/rest-traffic:d936446 \
+docker run -it --network logos-delivery-simulator_simulation alrevuelta/rest-traffic:d936446 \
 --delay-seconds=10 \
 --msg-size-kbytes=5 \
 --pubsub-topic=/waku/2/rs/66/0 \
---multiple-nodes="http://waku-simulator-nwaku-[1..5]:8645"
+--multiple-nodes="http://logos-delivery-simulator_nwaku_[1..5]:8645"
 ```
 
 Note that the REST API doesn’t allow to publish messages exceeding the rate limit, so this tool can’t be used to test beyond the rate limits.

@@ -6,7 +6,7 @@ By using the [nwaku-spammer] (https://github.com/waku-org/nwaku/pull/2821), you 
 - ⚠️ change `staticnode` to the node you wish. Note that the multiaddress is logged by every peer at startup.
 
 ```bash
-docker run -it --network waku-simulator_simulation quay.io/wakuorg/nwaku-pr:2821 \
+docker run -it --network logos-delivery-simulator_simulation quay.io/wakuorg/nwaku-pr:2821 \
       --relay=true \
       --rln-relay=true \
       --rln-relay-dynamic=true \
@@ -38,7 +38,7 @@ You can also try to connect multiple spamming nodes, but it might be necessary t
 
 ```bash
 for i in {1..5}; do
-docker run -it --network waku-simulator_simulation quay.io/wakuorg/nwaku-pr:2821 \
+docker run -it --network logos-delivery-simulator_simulation quay.io/wakuorg/nwaku-pr:2821 \
       --relay=true \
       --rln-relay=true \
       --rln-relay-dynamic=true \
@@ -61,7 +61,7 @@ done
 The spammer node also provides a method to test burst messaging. It will send the total user-message-limit of messages sequentially without pauses, then rests for the epoch period and repeats.
 
 ```bash
-docker run -it --network waku-simulator_simulation quay.io/wakuorg/nwaku-pr:2821 \
+docker run -it --network logos-delivery-simulator_simulation quay.io/wakuorg/nwaku-pr:2821 \
       --relay=true \
       --rln-relay=true \
       --rln-relay-dynamic=true \

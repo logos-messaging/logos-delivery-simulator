@@ -7,7 +7,7 @@ Note that if you spin up multiple services like this using the same `priv-key` s
 - ⚠️ change `lightpush-peer` to the node you wish. Note that the multiaddress is logged by every peer at startup.
 
 ```jsx
-docker run --network waku-simulator_simulation alrevuelta/go-waku-light:4fabb22 \
+docker run --network logos-delivery-simulator_simulation alrevuelta/go-waku-light:4fabb22 \
 --eth-endpoint=http://foundry:8545 \
 --contract-address=0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 \
 send-messages-loop \
@@ -26,7 +26,7 @@ Note that in some examples, it could be interesting to run multiple instances, e
 
 ```bash
 for i in {1..5}; do
-    docker run --rm --network waku-simulator_simulation alrevuelta/go-waku-light:4fabb22 \
+    docker run --rm --network logos-delivery-simulator_simulation alrevuelta/go-waku-light:4fabb22 \
     --eth-endpoint=http://foundry:8545 \
     --contract-address=0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 \
     send-messages-loop \

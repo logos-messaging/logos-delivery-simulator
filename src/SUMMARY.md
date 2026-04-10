@@ -1,7 +1,7 @@
 # Summary
 
-- [Introduction to Waku Simulator](./intro-waku-simulator.md)
-- [Deploy a waku network](./deploy-waku-network.md)
+- [Introduction to Logos Delivery Simulator](./intro-logos-delivery-simulator.md)
+- [Deploy a delivery network](./deploy-waku-network.md)
 - [Inject traffic](./inject-traffic.md)
 - [Connect external full node](./connect-full-node.md)
 - [Connect external spam node](./connect-spam-node.md)

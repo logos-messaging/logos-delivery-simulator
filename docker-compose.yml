@@ -11,7 +11,7 @@ networks:
 services:
 
 # Accounts are hardcoded to 520 with the idea that nwaku nodes use up to 500 for membership registration and the last 20 are used for ad-hoc testing.
-# The account number and private key pairs of the last 20 accounts can be found in the Register memberships section of the Waku-simulator book.
+# The account number and private key pairs of the last 20 accounts can be found in the Register memberships section of the Logos Delivery Simulator book.
   foundry:
     image: ghcr.io/foundry-rs/foundry:nightly-9b73e06e1fe376738b92ae081107620291d50188
     labels:
@@ -131,7 +131,7 @@ services:
       context: ./tools/rest-traffic
       dockerfile: Dockerfile
     command:
-      --multiple-nodes=http://waku-simulator-nwaku-[1..${NUM_NWAKU_NODES:-5}]:8645
+      --multiple-nodes=http://logos-delivery-simulator_nwaku_[1..${NUM_NWAKU_NODES:-5}]:8645
       --msg-size-kbytes=${MSG_SIZE_KBYTES:-10}
       --delay-seconds=${TRAFFIC_DELAY_SECONDS:-15}
     networks:

@@ -4,7 +4,7 @@
 The [go-waku-light](https://github.com/alrevuelta/go-waku-light) tool can be used as well to register multiple RLN memberships. This can be useful to stress test the nodes, forcing a large amount of memberships. Set `amount` to the amount of memberships that you want to register. Note that it takes some time, since memberships are registered one after the other. You can spin up multiple services like this, but in that case you must provide different `priv-key` to each. Note that these memberships are kind of thrown away and not used to send messages.
 
 ```jsx
-docker run --network waku-simulator_simulation alrevuelta/go-waku-light:07b8f32 \
+docker run --network logos-delivery-simulator_simulation alrevuelta/go-waku-light:07b8f32 \
 --eth-endpoint=http://foundry:8545 \
 --contract-address=0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 \
 register \
@@ -14,7 +14,7 @@ register \
 
 ```
 
-The foundry service in the waku-simulator generates deterministic accounts that can be used to register memberships. It is recommended to use different accounts for registering multiple memberships at the same time. The last 20 accounts generated are provided for ad-hoc testing purposes.
+The foundry service in the logos-delivery-simulator generates deterministic accounts that can be used to register memberships. It is recommended to use different accounts for registering multiple memberships at the same time. The last 20 accounts generated are provided for ad-hoc testing purposes.
 
 <details>
   <summary>Account and Private-key Pairs</summary>

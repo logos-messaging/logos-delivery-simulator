@@ -44,8 +44,8 @@ parser = argparse.ArgumentParser(description='')
 
 # these flags are mutually exclusive, one or the other, never at once
 group = parser.add_mutually_exclusive_group(required=True)
-group.add_argument('-sn', '--single-node', type=str, help='example: http://waku-simulator-nwaku-1:8645')
-group.add_argument('-mn', '--multiple-nodes', type=str, help='example: http://waku-simulator-nwaku-[1..10]:8645')
+group.add_argument('-sn', '--single-node', type=str, help='example: http://logos-delivery-simulator_nwaku_1:8645')
+group.add_argument('-mn', '--multiple-nodes', type=str, help='example: http://logos-delivery-simulator_nwaku_[1..10]:8645')
 
 # rest of araguments
 parser.add_argument('-c', '--content-topic', type=str, help='content topic', default="my-ctopic")

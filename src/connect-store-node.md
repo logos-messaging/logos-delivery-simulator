@@ -1,7 +1,7 @@
 # Connect external store node
 
-One or more external store nodes can be connected to the waku-simulator network by using configuration similar to that shown below. The store node(s) can use the DB as backend from an existing staging or production system DB or a custom one. When connecting to any DB ensure that the `store-message-retention-policy` matches that of the system.
-The staticnode that the store node connects to can be any existing node in the waku-simulator network, alternatively use the discv5 configuration.
+One or more external store nodes can be connected to the logos-delivery-simulator network by using configuration similar to that shown below. The store node(s) can use the DB as backend from an existing staging or production system DB or a custom one. When connecting to any DB ensure that the `store-message-retention-policy` matches that of the system.
+The staticnode that the store node connects to can be any existing node in the logos-delivery-simulator network, alternatively use the discv5 configuration.
 
 ```bash
  --discv5-discovery=true \
@@ -21,7 +21,7 @@ The [message-finder](https://github.com/waku-org/message-finder) tool could also
 
 
 ```bash
-docker run -it --network waku-simulator_simulation --name nwaku_storenode_1 -d harbor.status.im/wakuorg/nwaku:latest \
+docker run -it --network logos-delivery-simulator_simulation --name nwaku_storenode_1 -d harbor.status.im/wakuorg/nwaku:latest \
     --relay=true\
     --rest=true\
     --rest-address=0.0.0.0\
