@@ -1,12 +1,12 @@
-# waku-simulator
+# logos-delivery-simulator
 
-Check 📖 [The Waku Simulator Book](https://waku-org.github.io/waku-simulator/)📖
+Check 📖 [The Logos Delivery Simulator Book](https://logos-messaging.github.io/logos-delivery-simulator/)📖
 
 ## Quickstart
 
 ```
-git clone https://github.com/waku-org/waku-simulator.git
-cd waku-simulator
+git clone https://github.com/logos-messaging/logos-delivery-simulator.git
+cd logos-delivery-simulator
 ```
 
 Configure the simulation parameters. You can place the env variable in an `.env` file.
@@ -46,4 +46,4 @@ The docker images used are updated using [Watchtower](https://github.com/contain
 
 For details on how it works please read the [Ansible role readme file](https://github.com/status-im/infra-misc/blob/master/ansible/roles/waku-simulator/). The original deployment issue can be found [here](https://github.com/status-im/infra-nim-waku/issues/79).
 
-The deployed branch is [deploy-wakusim](https://github.com/waku-org/waku-simulator/tree/deploy-wakusim).
+The deployed branch is [deploy-wakusim](https://github.com/logos-messaging/logos-delivery-simulator/tree/deploy-wakusim).
