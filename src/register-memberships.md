@@ -1,7 +1,8 @@
 # Register memberships
 
+> **Protocol exercised:** RLN membership registration — bulk-registers RLN memberships against the on-chain RLN contract that the simulator deploys, so you can stress how the [logos-delivery](https://github.com/logos-messaging/logos-delivery) nodes pick up new memberships in real time.
 
-The [go-waku-light](https://github.com/alrevuelta/go-waku-light) tool can be used as well to register multiple RLN memberships. This can be useful to stress test the nodes, forcing a large amount of memberships. Set `amount` to the amount of memberships that you want to register. Note that it takes some time, since memberships are registered one after the other. You can spin up multiple services like this, but in that case you must provide different `priv-key` to each. Note that these memberships are kind of thrown away and not used to send messages.
+The [go-waku-light](https://github.com/alrevuelta/go-waku-light) tool can be used as well to register multiple RLN memberships. This can be useful to stress test the nodes, forcing a large amount of memberships. Set `amount` to the amount of memberships that you want to register. Note that it takes some time, since memberships are registered one after the other. You can spin up multiple services like this, but in that case you must provide different `priv-key` to each. Note that these memberships are essentially throwaway — they are not used to send messages.
 
 ```jsx
 docker run --network logos-delivery-simulator_simulation alrevuelta/go-waku-light:07b8f32 \

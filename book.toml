@@ -1,12 +1,12 @@
 [book]
 authors = ["logos-messaging"]
 language = "en"
-multilingual = false
 src = "src"
 title = "Logos Delivery Simulator Book"
 description = "Documentation for the Logos Delivery Simulator."
 
 [output.html]
 git-repository-url = "https://github.com/logos-messaging/logos-delivery-simulator"
-git-repository-icon = "fa-github"
 edit-url-template = "https://github.com/logos-messaging/logos-delivery-simulator/edit/master/{path}"
+default-theme = "coal"
+preferred-dark-theme = "coal"

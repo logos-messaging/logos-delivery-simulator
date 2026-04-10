@@ -44,7 +44,7 @@ services:
       - PRIVATE_KEY=${PRIVATE_KEY}
       - RPC_URL=${RPC_URL:-http://foundry:8545}
       - ETH_FROM=${ETH_FROM}
-      - NUM_NWAKU_NODES=${NUM_NWAKU_NODES:-5}
+      - NUM_LD_NODES=${NUM_LD_NODES:-5}
     entrypoint: sh
     command:
       - '/opt/deploy_rln_contract.sh'
@@ -57,7 +57,7 @@ services:
       - simulation
 
   bootstrap:
-    image: ${NWAKU_IMAGE:-wakuorg/nwaku:latest}
+    image: ${LD_IMAGE:-wakuorg/nwaku:latest}
     restart: on-failure
     labels:
       com.centurylinklabs.watchtower.enable: '${WATCHTOWER_ENABLED:-false}'
@@ -76,12 +76,12 @@ services:
       - simulation
 
   nwaku:
-    image: ${NWAKU_IMAGE:-wakuorg/nwaku:latest}
+    image: ${LD_IMAGE:-wakuorg/nwaku:latest}
     restart: on-failure
     labels:
       com.centurylinklabs.watchtower.enable: '${WATCHTOWER_ENABLED:-false}'
     deploy:
-      replicas: ${NUM_NWAKU_NODES:-5}
+      replicas: ${NUM_LD_NODES:-5}
     entrypoint: sh
     environment:
       - RPC_URL=${RPC_URL:-http://foundry:8545}
@@ -115,9 +115,9 @@ services:
       - TOKEN_ADDRESS=${TOKEN_ADDRESS:-0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512}
       - CONTRACT_ADDRESS=${RLN_CONTRACT_ADDRESS:-0x0165878A594ca255338adfa4d48449f69242Eb8F}
       - PRIVATE_KEY=${PRIVATE_KEY}
-      - NUM_NWAKU_NODES=${NUM_NWAKU_NODES:-5}
+      - NUM_LD_NODES=${NUM_LD_NODES:-5}
     deploy:
-      replicas: ${NUM_NWAKU_NODES:-5}
+      replicas: ${NUM_LD_NODES:-5}
     volumes:
       - privatekeys-volume:/shared
     depends_on:
@@ -131,7 +131,7 @@ services:
       context: ./tools/rest-traffic
       dockerfile: Dockerfile
     command:
-      --multiple-nodes=http://logos-delivery-simulator_nwaku_[1..${NUM_NWAKU_NODES:-5}]:8645
+      --multiple-nodes=http://logos-delivery-simulator_nwaku_[1..${NUM_LD_NODES:-5}]:8645
       --msg-size-kbytes=${MSG_SIZE_KBYTES:-10}
       --delay-seconds=${TRAFFIC_DELAY_SECONDS:-15}
     networks:

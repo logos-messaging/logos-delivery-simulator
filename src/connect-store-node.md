@@ -1,5 +1,7 @@
 # Connect external store node
 
+> **Protocol exercised:** Store — a [logos-delivery](https://github.com/logos-messaging/logos-delivery) node with persistent storage joins the network, archives messages it sees on the relay, and serves historical queries via the store protocol.
+
 One or more external store nodes can be connected to the logos-delivery-simulator network by using configuration similar to that shown below. The store node(s) can use the DB as backend from an existing staging or production system DB or a custom one. When connecting to any DB ensure that the `store-message-retention-policy` matches that of the system.
 The staticnode that the store node connects to can be any existing node in the logos-delivery-simulator network, alternatively use the discv5 configuration.
 

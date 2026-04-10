@@ -1,12 +1,13 @@
 # Connect external full node
 
+> **Protocol exercised:** Relay + RLN Relay — attaches an additional [logos-delivery](https://github.com/logos-messaging/logos-delivery) node to the simulated network as a full relay participant with its own RLN membership.
 
-If you want to connect a node with some custom configuration to the existing Logos delivery network. Perhaps a different image or some other configuration, you can do it as follows. Bear in mind that if this node has other configuration (eg `rln-relay-epoch-sec` or `rln-relay-user-message-limit`) then it won’t behave properly.
+If you want to attach a node with some custom configuration to the simulated Logos Delivery network — perhaps a different image, a different RLN epoch length, or any other knob — you can do it as follows. Bear in mind that if this node uses different RLN parameters (e.g. `rln-relay-epoch-sec` or `rln-relay-user-message-limit`) than the rest of the network, the gossipsub layer will treat its messages as invalid and you won't see them propagate.
 
 - ⚠️set your own `staticnode`
 
 ```bash
-docker run -it --network logos-delivery-simulator_simulation quay.io/wakuorg/nwaku-pr:2759-rln-v2 \
+docker run -it --network logos-delivery-simulator_simulation wakuorg/nwaku:latest \
       --relay=true \
       --rln-relay=true \
       --rln-relay-dynamic=true \
@@ -26,7 +27,7 @@ You can also try to connect multiple nodes with a loop. Note the `&`. Remember t
 
 ```bash
 for i in {1..5}; do
-    docker run -it --network logos-delivery-simulator_simulation quay.io/wakuorg/nwaku-pr:2759-rln-v2 \
+    docker run -it --network logos-delivery-simulator_simulation wakuorg/nwaku:latest \
       --relay=true \
       --rln-relay=true \
       --rln-relay-dynamic=true \

@@ -1,17 +1,17 @@
-# Deploy a delivery network
+# Deploy a Logos Delivery network
 
-The network can be deployed in a few commands, and requires `docker` and `docker compose`. Some of the configuration is exposed via env flags, but if you are missing some, PRs are accepted.
+This page deploys a self-contained network of [logos-delivery](https://github.com/logos-messaging/logos-delivery) nodes (the `wakunode2` binary, distributed as a Docker image) on a single machine. It requires `docker` and `docker compose`. Configuration is exposed through environment variables — if a knob you need is missing, PRs are welcome.
 
-Some of the most important parameters are:
+The most important parameters are:
 
-- `NWAKU_IMAGE` Docker image of nwaku that all nodes will run
-- `NUM_NWAKU_NODES` Amount of nwaku nodes
-- `RLN_RELAY_EPOCH_SEC` and `RLN_RELAY_MSG_LIMIT` configure the RLNv2 parameter, specifying the amount of messages that are allowed per unit of time.
-- `TRAFFIC_DELAY_SECONDS` and `MSG_SIZE_KBYTES` are used to inject traffic via the rest API into the network.
+- `LD_IMAGE` — the `logos-delivery` Docker image that every node will run. The image is still published under the legacy `wakuorg/nwaku` namespace (see [the upstream container build](https://github.com/logos-messaging/logos-delivery/blob/master/.github/workflows/container-image.yml)); pin a tag for reproducible runs.
+- `NUM_LD_NODES` — number of `logos-delivery` nodes to launch (default 5; upper bound around 200 depending on host resources).
+- `RLN_RELAY_EPOCH_SEC` and `RLN_RELAY_MSG_LIMIT` — RLNv2 parameters that cap how many messages each node may publish per epoch.
+- `TRAFFIC_DELAY_SECONDS` and `MSG_SIZE_KBYTES` — used by the bundled `rest-traffic` injector to drive load through each node's REST API.
 
 ```bash
-export NWAKU_IMAGE=quay.io/wakuorg/nwaku-pr:2759-rln-v2
-export NUM_NWAKU_NODES=5
+export LD_IMAGE=wakuorg/nwaku:latest
+export NUM_LD_NODES=5
 export RLN_RELAY_EPOCH_SEC=1
 export RLN_RELAY_MSG_LIMIT=1
 
@@ -46,10 +46,10 @@ Or if you want to follow the logs
 docker logs logos-delivery-simulator_nwaku_1 --follow
 ```
 
-Once the network of nwaku nodes is up and running we can use it to perform different tests, connecting other nodes that we fully control with some specific characteristics. This ranges from connecting spammer nodes, light clients, and in the future unsynced nodes, etc.
+Once the network of `logos-delivery` nodes is up and running we can use it to perform different tests, connecting other nodes that we fully control with specific characteristics. This ranges from connecting spammer nodes, light clients, store nodes, and in the future unsynced nodes, etc.
 
 
-Now that we have the network deployed we can use it. Hereunder we describe how to use the network deployed by `logos-delivery-simulator` to perform end-to-end tests of any desired feature. We focus on the following ones:
+Now that we have the network deployed we can use it. Hereunder we describe how to use the network deployed by `logos-delivery-simulator` to perform end-to-end tests of any desired feature. Each tutorial below targets a specific protocol from the [logos-delivery](https://github.com/logos-messaging/logos-delivery) suite:
 
 - Inject traffic:
 - Connect external full node:

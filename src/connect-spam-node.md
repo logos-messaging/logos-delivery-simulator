@@ -1,7 +1,8 @@
 # Connect external spam node
 
+> **Protocol exercised:** RLN Relay (spam protection) + gossipsub peer scoring — verifies that nodes exceeding their RLN rate limit are detected and disconnected via peer score.
 
-By using the [nwaku-spammer] (https://github.com/waku-org/nwaku/pull/2821), you can connect a node to the network that spams the other nodes, sending messages exceeding its rate limit. It will register an RLN membership at startup. It should be configured with the same contract and `rln-relay-user-message-limit` as the waku nodes. If a node spams enough for the peer-score to go below the threshold, then the peers will disconnect from the spamming node.
+By using the [nwaku-spammer](https://github.com/waku-org/nwaku/pull/2821) build, you can connect a node to the network that spams the other nodes, sending messages exceeding its rate limit. It will register an RLN membership at startup. It should be configured with the same contract and `rln-relay-user-message-limit` as the rest of the network. If a node spams enough for its gossipsub peer score to drop below the threshold, the other [logos-delivery](https://github.com/logos-messaging/logos-delivery) nodes will disconnect from it.
 
 - ⚠️ change `staticnode` to the node you wish. Note that the multiaddress is logged by every peer at startup.
 
