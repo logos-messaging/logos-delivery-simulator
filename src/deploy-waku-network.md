@@ -1,6 +1,6 @@
 # Deploy a Logos Delivery network
 
-This page deploys a self-contained network of [logos-delivery](https://github.com/logos-messaging/logos-delivery) nodes (the `wakunode2` binary, distributed as a Docker image) on a single machine. It requires `docker` and `docker compose`. Configuration is exposed through environment variables — if a knob you need is missing, PRs are welcome.
+This page deploys a self-contained network of [logos-delivery](https://github.com/logos-messaging/logos-delivery) nodes (the `wakunode2` binary, distributed as a Docker image) on a single machine. It requires `docker` and `docker-compose`. Configuration is exposed through environment variables — if a knob you need is missing, PRs are welcome.
 
 The most important parameters are:
 
@@ -36,14 +36,18 @@ After a couple of minutes, everything should be running at:
 For greater observability, one can access each node logs as follows:
 
 ```bash
-docker logs logos-delivery-simulator_nwaku_1
-docker logs logos-delivery-simulator_nwaku_2
+# All nwaku replicas at once
+docker-compose logs nwaku
+
+# A specific replica (e.g. index 1 or 2)
+docker-compose logs --index=1 nwaku
+docker-compose logs --index=2 nwaku
 ```
 
 Or if you want to follow the logs
 
 ```bash
-docker logs logos-delivery-simulator_nwaku_1 --follow
+docker-compose logs -f --index=1 nwaku
 ```
 
 Once the network of `logos-delivery` nodes is up and running we can use it to perform different tests, connecting other nodes that we fully control with specific characteristics. This ranges from connecting spammer nodes, light clients, store nodes, and in the future unsynced nodes, etc.

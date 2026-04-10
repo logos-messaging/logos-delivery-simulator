@@ -2,13 +2,13 @@
 
 A self-contained protocol simulator for [logos-delivery](https://github.com/logos-messaging/logos-delivery) — the Nim implementation of a libp2p protocol suite for private, censorship-resistant peer-to-peer messaging.
 
-On `docker compose up`, the simulator orchestrates a network of `logos-delivery` nodes inside Docker (default 5, upper bound around 200), launches a private Anvil blockchain, deploys an RLN contract, registers an RLN membership for every node, and brings up a Grafana + Prometheus + cAdvisor + Epirus block-explorer stack pre-wired to the network. The whole thing runs on an isolated Docker bridge with cluster id `66`, so it cannot accidentally talk to any production fleet.
+On `docker-compose up`, the simulator orchestrates a network of `logos-delivery` nodes inside Docker (default 5, upper bound around 200), launches a private Anvil blockchain, deploys an RLN contract, registers an RLN membership for every node, and brings up a Grafana + Prometheus + cAdvisor + Epirus block-explorer stack pre-wired to the network. The whole thing runs on an isolated Docker bridge with cluster id `66`, so it cannot accidentally talk to any production fleet.
 
 📖 Full tutorials live in **[The Logos Delivery Simulator Book](https://logos-messaging.github.io/logos-delivery-simulator/)**.
 
 ## Prerequisites
 
-- `docker` and `docker compose` v2 (tested with v2.28.1; v1 is **not** supported)
+- `docker` and `docker-compose` v2 (tested with v2.28.1; v1 is **not** supported)
 - Linux or macOS host with at least a few GB of free RAM (scales with `NUM_LD_NODES`)
 
 ## Quickstart
@@ -18,7 +18,7 @@ git clone https://github.com/logos-messaging/logos-delivery-simulator.git
 cd logos-delivery-simulator
 ```
 
-Configure the simulation. Either `export` the variables in your shell or drop them in a local `.env` file (gitignored) — `docker compose` picks `.env` up automatically.
+Configure the simulation. Either `export` the variables in your shell or drop them in a local `.env` file (gitignored) — `docker-compose` picks `.env` up automatically.
 
 ```bash
 # Image & network size
@@ -42,7 +42,7 @@ export ETH_FROM=0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
 Bring everything up:
 
 ```bash
-docker compose up -d
+docker-compose up -d
 ```
 
 After a couple of minutes the stack is ready. Open:
@@ -56,7 +56,11 @@ After a couple of minutes the stack is ready. Open:
 To follow logs from a specific node:
 
 ```bash
-docker logs logos-delivery-simulator_nwaku_1 --follow
+# Stream all nwaku replicas merged
+docker-compose logs -f nwaku
+
+# Or a specific replica (index = the N in logos-delivery-simulator_nwaku_N)
+docker-compose logs -f --index=1 nwaku
 ```
 
 ## What you can do with it

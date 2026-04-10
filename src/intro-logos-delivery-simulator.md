@@ -4,7 +4,7 @@ The [logos-delivery-simulator](https://github.com/logos-messaging/logos-delivery
 
 ## What it does
 
-The simulator orchestrates a network of `logos-delivery` nodes inside Docker, on a single machine, so you can exercise the protocol stack end-to-end without depending on any public network. Concretely, on `docker compose up` it:
+The simulator orchestrates a network of `logos-delivery` nodes inside Docker, on a single machine, so you can exercise the protocol stack end-to-end without depending on any public network. Concretely, on `docker-compose up` it:
 
 - spins up a configurable number of `logos-delivery` nodes (default: 5, upper bound around 200) all connected through a single bootstrap node via discv5,
 - launches a private Anvil blockchain ([foundry](https://github.com/foundry-rs/foundry)) under your full control,
