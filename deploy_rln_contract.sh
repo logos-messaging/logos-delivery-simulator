@@ -24,6 +24,20 @@ git checkout $RLN_CONTRACT_REPO_COMMIT
 # 3. Compile Contract Repo
 echo "forge install..."
 forge install
+
+# Workaround: gitpkg.vercel.app returns HTTP 402, so fetch @zk-kit/imt.sol
+# directly from GitHub at the same commit the URL pinned, and redirect
+# package.json at the local copy via file: protocol before pnpm install.
+ZK_KIT_COMMIT=0699fd1e5ad3683ae0090e0626f75d7834145500
+echo "Fetching @zk-kit/imt.sol from GitHub at $ZK_KIT_COMMIT..."
+rm -rf /tmp/zk-kit local-deps/imt.sol
+git clone --quiet https://github.com/privacy-scaling-explorations/zk-kit.git /tmp/zk-kit
+(cd /tmp/zk-kit && git checkout --quiet $ZK_KIT_COMMIT)
+mkdir -p local-deps
+cp -r /tmp/zk-kit/packages/imt.sol local-deps/imt.sol
+sed -i 's|"@zk-kit/imt.sol": *"https://gitpkg.vercel.app/[^"]*"|"@zk-kit/imt.sol": "file:./local-deps/imt.sol"|' package.json
+rm -f pnpm-lock.yaml
+
 echo "pnpm install..."
 pnpm install
 echo "forge build..."
