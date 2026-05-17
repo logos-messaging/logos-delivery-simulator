@@ -1,2 +1,2 @@
-requests==2.32.3
+requests==2.33.0
 argparse==1.4.0
