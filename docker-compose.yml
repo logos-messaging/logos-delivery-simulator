@@ -2,20 +2,19 @@ version: "3.7"
 
 networks:
   simulation:
-      driver: bridge
-      ipam:
-          driver: default
-          config:
-              - subnet: "10.2.0.0/24"
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.2.0.0/24"
 
 services:
-
-# Accounts are hardcoded to 520 with the idea that nwaku nodes use up to 500 for membership registration and the last 20 are used for ad-hoc testing.
-# The account number and private key pairs of the last 20 accounts can be found in the Register memberships section of the Logos Delivery Simulator book.
+  # Accounts are hardcoded to 520 with the idea that nwaku nodes use up to 500 for membership registration and the last 20 are used for ad-hoc testing.
+  # The account number and private key pairs of the last 20 accounts can be found in the Register memberships section of the Logos Delivery Simulator book.
   foundry:
     image: ghcr.io/foundry-rs/foundry:nightly-9b73e06e1fe376738b92ae081107620291d50188
     labels:
-      com.centurylinklabs.watchtower.enable: '${WATCHTOWER_ENABLED:-false}'
+      com.centurylinklabs.watchtower.enable: "${WATCHTOWER_ENABLED:-false}"
     ports:
       - 0.0.0.0:8545:8545
     command:
@@ -38,7 +37,7 @@ services:
   contract-repo-deployer:
     image: node:hydrogen-bookworm
     labels:
-      com.centurylinklabs.watchtower.enable: '${WATCHTOWER_ENABLED:-false}'
+      com.centurylinklabs.watchtower.enable: "${WATCHTOWER_ENABLED:-false}"
     environment:
       - RLN_CONTRACT_REPO_COMMIT=${RLN_CONTRACT_REPO_COMMIT:-e75ac913e579ad872f54b2225eec35d1de3d98b0}
       - PRIVATE_KEY=${PRIVATE_KEY}
@@ -47,7 +46,7 @@ services:
       - NUM_LD_NODES=${NUM_LD_NODES:-5}
     entrypoint: sh
     command:
-      - '/opt/deploy_rln_contract.sh'
+      - "/opt/deploy_rln_contract.sh"
     volumes:
       - ./deploy_rln_contract.sh:/opt/deploy_rln_contract.sh
       - privatekeys-volume:/shared
@@ -60,7 +59,7 @@ services:
     image: ${LD_IMAGE:-wakuorg/nwaku:latest}
     restart: on-failure
     labels:
-      com.centurylinklabs.watchtower.enable: '${WATCHTOWER_ENABLED:-false}'
+      com.centurylinklabs.watchtower.enable: "${WATCHTOWER_ENABLED:-false}"
     # TODO: expose some ports to inject traffic
     ports:
       - 127.0.0.1:60000:60000
@@ -69,7 +68,7 @@ services:
       - 127.0.0.1:8645:8645
     entrypoint: sh
     command:
-      - '/opt/run_bootstrap.sh'
+      - "/opt/run_bootstrap.sh"
     volumes:
       - ./run_bootstrap.sh:/opt/run_bootstrap.sh:Z
     networks:
@@ -79,7 +78,7 @@ services:
     image: ${LD_IMAGE:-wakuorg/nwaku:latest}
     restart: on-failure
     labels:
-      com.centurylinklabs.watchtower.enable: '${WATCHTOWER_ENABLED:-false}'
+      com.centurylinklabs.watchtower.enable: "${WATCHTOWER_ENABLED:-false}"
     deploy:
       replicas: ${NUM_LD_NODES:-5}
     entrypoint: sh
@@ -93,7 +92,7 @@ services:
       - TOKEN_ADDRESS=${TOKEN_ADDRESS:-0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512}
       - PRIVATE_KEY=${PRIVATE_KEY}
     command:
-      - '/opt/run_nwaku.sh'
+      - "/opt/run_nwaku.sh"
     volumes:
       - ./run_nwaku.sh:/opt/run_nwaku.sh:Z
       - privatekeys-volume:/shared
@@ -125,15 +124,27 @@ services:
         condition: service_completed_successfully
     networks:
       - simulation
-      
-  rest-traffic:
+
+  traffic-post:
     build:
-      context: ./tools/rest-traffic
+      context: ./tools/traffic-post
       dockerfile: Dockerfile
     command:
-      --multiple-nodes=http://logos-delivery-simulator_nwaku_[1..${NUM_LD_NODES:-5}]:8645
+      --multiple-nodes=http://logos-delivery-simulator-nwaku-[1..${NUM_LD_NODES:-5}]:8645
       --msg-size-kbytes=${MSG_SIZE_KBYTES:-10}
-      --delay-seconds=${TRAFFIC_DELAY_SECONDS:-15}
+      --delay-seconds=${TRAFFIC_DELAY_SECONDS:-30}
+    restart: on-failure
+    networks:
+      - simulation
+    depends_on:
+      - nwaku
+
+  traffic-subscribe:
+    build:
+      context: ./tools/traffic-subscribe
+      dockerfile: Dockerfile
+    command: --multiple-nodes=http://logos-delivery-simulator-nwaku-[1..${NUM_LD_NODES:-5}]:8645
+    restart: on-failure
     networks:
       - simulation
     depends_on:

@@ -1,0 +1,18 @@
+{
+    "name": "traffic-subscribe",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@waku/enr": "^0.0.33",
+        "@waku/sdk": "^0.0.36",
+        "commander": "^15.0.0"
+    }
+}

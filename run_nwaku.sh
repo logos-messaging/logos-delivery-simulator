@@ -133,6 +133,9 @@ exec /usr/bin/wakunode\
       --rest=true\
       --rest-address=0.0.0.0\
       --rest-port=8645\
+      --websocket-support=true\
+      --websocket-port=8000\
+      --filter=true\
       --rln-relay=true\
       --rln-relay-dynamic=true\
       --rln-relay-eth-client-address="$RPC_URL"\
