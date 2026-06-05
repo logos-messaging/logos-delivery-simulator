@@ -16,7 +16,7 @@ def send_waku_msg(node_address, kbytes, pubsub_topic, content_topic):
     body = {
         "payload": base64_payload,
         "contentTopic": content_topic,
-        "version": 1,  # You can adjust the version as needed
+        "version": 0,  # You can adjust the version as needed
         "timestamp": int(time.time() * 1_000_000_000) # use nanoseconds to match nwaku node time unit
     }
 
