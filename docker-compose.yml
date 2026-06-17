@@ -68,6 +68,8 @@ services:
       - 127.0.0.1:9000:9000
       - 127.0.0.1:8645:8645
     entrypoint: sh
+    environment:
+      - QUIC_SUPPORT=${QUIC_SUPPORT:-true}
     command:
       - '/opt/run_bootstrap.sh'
     volumes:
@@ -92,6 +94,7 @@ services:
       - RLN_RELAY_EPOCH_SEC=${RLN_RELAY_EPOCH_SEC:-600}
       - TOKEN_ADDRESS=${TOKEN_ADDRESS:-0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512}
       - PRIVATE_KEY=${PRIVATE_KEY}
+      - QUIC_SUPPORT=${QUIC_SUPPORT:-true}
     command:
       - '/opt/run_nwaku.sh'
     volumes:
@@ -131,7 +134,7 @@ services:
       context: ./tools/rest-traffic
       dockerfile: Dockerfile
     command:
-      --multiple-nodes=http://logos-delivery-simulator_nwaku_[1..${NUM_LD_NODES:-5}]:8645
+      --multiple-nodes=http://logos-delivery-simulator-nwaku-[1..${NUM_LD_NODES:-5}]:8645
       --msg-size-kbytes=${MSG_SIZE_KBYTES:-10}
       --delay-seconds=${TRAFFIC_DELAY_SECONDS:-15}
     networks:
