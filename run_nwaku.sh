@@ -126,6 +126,8 @@ if [ -z "${BOOTSTRAP_ENR}" ]; then
 fi
 
 echo "Using bootstrap node: ${BOOTSTRAP_ENR}"
+QUIC_ARGS=""
+[ "${QUIC_SUPPORT:-true}" = "true" ] && QUIC_ARGS="--quic-support=true"
 exec /usr/bin/wakunode\
       --relay=true\
       --lightpush=true\
@@ -150,4 +152,4 @@ exec /usr/bin/wakunode\
       --discv5-bootstrap-node=${BOOTSTRAP_ENR}\
       --nat=extip:${IP}\
       --shard=0\
-      --cluster-id=66
+      --cluster-id=66 $QUIC_ARGS
