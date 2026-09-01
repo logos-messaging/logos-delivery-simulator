@@ -3,7 +3,7 @@
 set -e
 
 # 1. Install foundry and pnpm
-curl -L https://foundry.paradigm.xyz | bash && . /root/.bashrc && foundryup && export PATH=$PATH:$HOME/.foundry/bin
+curl -L https://foundry.paradigm.xyz | bash && . /root/.bashrc && export PATH=$PATH:$HOME/.foundry/bin && foundryup
 
 echo "installing pnpm..."
 npm install -g pnpm
