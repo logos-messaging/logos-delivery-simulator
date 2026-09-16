@@ -97,7 +97,14 @@ else
   echo "Private key: $private_key"
 
   echo "Generating RLN keystore"
-  /usr/bin/wakunode generateRlnKeystore \
+  # logos-delivery >= v0.39 moved the generateRlnKeystore subcommand into the
+  # standalone rlnkeystore tool; older images only have the subcommand.
+  if command -v rlnkeystore >/dev/null; then
+    KEYSTORE_CMD=rlnkeystore
+  else
+    KEYSTORE_CMD="/usr/bin/wakunode generateRlnKeystore"
+  fi
+  $KEYSTORE_CMD \
     --rln-relay-eth-client-address="$RPC_URL" \
     --rln-relay-eth-private-key=$private_key  \
     --rln-relay-eth-contract-address=$RLN_CONTRACT_ADDRESS \
@@ -126,7 +133,9 @@ if [ -z "${BOOTSTRAP_ENR}" ]; then
 fi
 
 echo "Using bootstrap node: ${BOOTSTRAP_ENR}"
-exec /usr/bin/wakunode\
+# logos-delivery >= v0.39 ships logosdeliverynode; older images only have wakunode.
+NODE_BIN=$(command -v logosdeliverynode || echo /usr/bin/wakunode)
+exec $NODE_BIN\
       --relay=true\
       --lightpush=true\
       --max-connections=250\
