@@ -4,7 +4,10 @@ IP=$(ip a | grep "inet " | grep -Fv 127.0.0.1 | sed 's/.*inet \([^/]*\).*/\1/')
 
 echo "I am a bootstrap node"
 
-exec /usr/bin/wakunode\
+# logos-delivery >= v0.39 ships logosdeliverynode; older images only have wakunode.
+NODE_BIN=$(command -v logosdeliverynode || echo /usr/bin/wakunode)
+
+exec $NODE_BIN\
       --relay=false\
       --rest=true\
       --rest-admin=true\
