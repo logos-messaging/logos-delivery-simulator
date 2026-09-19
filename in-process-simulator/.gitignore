@@ -1,0 +1,4 @@
+# Generated from $LD_ROOT by tools/gen_nim_cfg.sh; machine-specific.
+nim.cfg
+build/
+nimcache/
